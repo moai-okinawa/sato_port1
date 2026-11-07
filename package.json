@@ -1,0 +1,1 @@
+{"name":"sato-portfolio","version":"1.0.0","private":true,"description":"資格試験インストラクター satoのポートフォリオ","scripts":{"dev":"node server.cjs","start":"node server.cjs"}}
