@@ -29,3 +29,7 @@ http://localhost:3000 にアクセスします。
 公開先: https://moai-okinawa.github.io/sato_port1/
 
 ビルドは不要です。公開するファイルは `index.html`、`style.css`、`script.js` のみです。Node.jsのサーバーやREADMEは配信しません。
+
+## 電工ラボ
+
+ポートフォリオの「電工ラボ」から `denko-lab/dist/` の学習ツールを開けます。PagesはこのフォルダのHTML・CSS・JavaScriptも公開します。更新する場合は `denko-lab/dist/` の該当ファイルを編集してください。
