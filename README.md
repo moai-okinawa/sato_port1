@@ -32,4 +32,4 @@ http://localhost:3000 にアクセスします。
 
 ## 電工ラボ
 
-ポートフォリオの「電工ラボ」から `denko-lab/dist/` の学習ツールを開けます。PagesはこのフォルダのHTML・CSS・JavaScriptも公開します。更新する場合は `denko-lab/dist/` の該当ファイルを編集してください。
+ポートフォリオの「電工ラボ」から `denko/` の学習ツールを開けます。PagesはこのフォルダのHTML・CSS・JavaScriptも公開します。更新する場合は `denko/` の該当ファイルを編集してください。
