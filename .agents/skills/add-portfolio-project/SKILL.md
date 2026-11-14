@@ -5,6 +5,10 @@ description: このリポジトリのsatoポートフォリオにプロジェク
 
 # ポートフォリオに作品を1つ追加する
 
+## 合格率資料を扱う場合
+
+第二種電気工事士の試験結果を掲載・更新するときは [2026年度の合格率資料](references/denko-pass-rates-2026.md) を読む。年度・期・人数・算式・公式出典・確認日を示し、全国の試験結果と講師の指導実績を区別する。最新値は掲載前に公式情報で再確認する。
+
 ## 最初に確認するもの
 
 リポジトリ直下の `AGENTS.md` と `DESIGN.md` を読み、`git status --short` で既存の変更を確認する。現在の `index.html` の `#works`、`style.css` の `.lab-card` 関連、`server.cjs`、`.github/workflows/pages.yml` を確認する。パスはこのスキルのフォルダではなく、リポジトリ直下を基準とする。
