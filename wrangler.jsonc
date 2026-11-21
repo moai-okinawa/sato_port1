@@ -2,7 +2,7 @@
   "name": "sato-portfolio",
   "main": "cloudflare/worker.mjs",
   "compatibility_date": "2026-08-01",
-  "workers_dev": false,
+  "workers_dev": true,
   "preview_urls": false,
   "build": { "command": "node cloudflare/build.mjs" },
   "assets": {
@@ -14,7 +14,7 @@
     {
       "binding": "STUDY_DB",
       "database_name": "denko-study",
-      "database_id": "00000000-0000-0000-0000-000000000000"
+      "database_id": "1bcce7fcd9642759f5052d3052480d9c"
     }
   ]
 }
