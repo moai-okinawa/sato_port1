@@ -30,7 +30,8 @@ jobs:
           mkdir -p _site
           cp index.html style.css script.js _site/
           mkdir -p _site/denko
-          cp denko/index.html denko/style.css denko/app.js _site/denko/
+          cp denko/index.html denko/style.css denko/app.js denko/past-exams.js denko/official-mock*.js _site/denko/
+          cp -R denko/images denko/exams denko/exam-pages _site/denko/
           touch _site/.nojekyll
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
