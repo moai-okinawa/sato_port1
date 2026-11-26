@@ -4,7 +4,13 @@
   "compatibility_date": "2026-08-01",
   "workers_dev": true,
   "preview_urls": false,
-  "build": { "command": "node cloudflare/build.mjs" },
+  "vars": {
+    "ACCESS_TEAM_URL": "https://frosty-bonus-da28.cloudflareaccess.com",
+    "ACCESS_AUD": "472744ef829b65a52e72784249db18c8181277608cd176f1032faf11cded775d"
+  },
+  "build": {
+    "command": "node cloudflare/build.mjs"
+  },
   "assets": {
     "directory": "./_cloudflare",
     "binding": "ASSETS",
@@ -14,7 +20,7 @@
     {
       "binding": "STUDY_DB",
       "database_name": "denko-study",
-      "database_id": "1bcce7fcd9642759f5052d3052480d9c"
+      "database_id": "6c61a5c8-14ec-43f3-9f56-19db00cf44d4"
     }
   ]
 }
