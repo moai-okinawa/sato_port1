@@ -46,7 +46,10 @@ async function learnerId(request, env) {
 function validEvent(event) {
   if (!event || !/^[a-f0-9-]{36}$/.test(event.key)) return false;
   if (event.kind === 'answer') {
-    return Number.isSafeInteger(event.id) && event.id >= 0 && event.id < 54 &&
+    const practiceQuestion = Number.isSafeInteger(event.id) && event.id >= 0 && event.id < 54;
+    const officialQuestion = typeof event.id === 'string' &&
+      /^official-\d{8}-[12]-(?:[1-9]|[1-4]\d|50)$/.test(event.id);
+    return (practiceQuestion || officialQuestion) &&
       typeof event.ok === 'boolean' && typeof event.day === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(event.day);
   }
   return event.kind === 'exam' && Number.isSafeInteger(event.date) && event.date > 0 &&

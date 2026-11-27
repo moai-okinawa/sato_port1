@@ -8,6 +8,37 @@ const officialBank = officialMockExams.flatMap(([date, sitting, sizes, questions
 });
 let officialSession;
 
+function officialQuestionId(question) {
+  return `official-${question.date}-${question.sitting}-${question.number}`;
+}
+
+const officialQuestionsById = new Map(officialBank.map(question => [officialQuestionId(question), question]));
+
+function officialReviewQuestion(id) {
+  const question = officialQuestionsById.get(id);
+  if (!question) return undefined;
+  return {
+    ...question, id, official: true, cat: '過去問模擬試験',
+    text: `${question.source} 問${question.number}`,
+    opts: officialChoiceLabels,
+    ex: `原本の設問と公式解答を確認しましょう。<br>
+      <a href="exams/${question.date}_co_second_a0${question.sitting}.pdf" target="_blank" rel="noopener">公式解答PDF（別タブ）</a>`
+  };
+}
+
+function officialReviewVisual(question) {
+  const file = officialQuestionFile(question);
+  return `${officialScan(question, question.page, `問${question.number}を含む公式問題のページ`, true)}
+    <p><a href="${file}#page=${question.page}" target="_blank" rel="noopener">問題PDF（別タブ）</a>
+    ${question.number >= 31 ? ` · <a href="${file}#page=15" target="_blank" rel="noopener">共通の配線図（別タブ）</a>` : ''}</p>`;
+}
+
+function locateOfficialQuestion(scan, question) {
+  const locate = () => { scan.scrollTop = scan.firstElementChild.offsetHeight * question.offset - 6; };
+  locate();
+  scan.querySelector('img').addEventListener('load', locate, { once: true });
+}
+
 function officialMockPage() {
   if (officialSession) {
     if (Date.now() >= officialSession.deadline) finishOfficialMock(true);
@@ -79,10 +110,7 @@ function renderOfficialQuestion() {
       </section>
     </div>`;
 
-  const scan = app.querySelector('[data-question-scan]');
-  const locate = () => { scan.scrollTop = scan.firstElementChild.offsetHeight * question.offset - 6; };
-  locate();
-  scan.querySelector('img').addEventListener('load', locate, { once: true });
+  locateOfficialQuestion(app.querySelector('[data-question-scan]'), question);
   app.querySelector('.official-question h2').focus({ preventScroll: true });
   window.scrollTo(0, 0);
   clearInterval(tick);
@@ -103,6 +131,11 @@ function finishOfficialMock(expired = false) {
   const { questions, answers } = officialSession;
   officialSession = null;
   const correct = questions.filter((question, index) => question.correct === answers[index]).length;
+  questions.forEach((question, index) => {
+    if (Number.isInteger(answers[index])) {
+      recordStudyAnswer(officialQuestionId(question), question.correct === answers[index]);
+    }
+  });
   app.innerHTML = `
     <div class="quiz">
       <h1 tabindex="-1">過去問模擬試験の結果</h1>
@@ -111,6 +144,7 @@ function finishOfficialMock(expired = false) {
         <strong class="score">${Math.round(correct / questions.length * 100)}%</strong>
         <p>${questions.length}問中 ${correct}問正解（未解答 ${questions.length - answers.filter(Number.isInteger).length}問）</p>
         <button class="primary" data-page="official">もう一度受ける</button>
+        <button class="secondary" data-mode="review">間違えた問題を復習</button>
       </section>
       <section class="panel">
         <h2>解答の振り返り</h2>
@@ -136,6 +170,10 @@ document.addEventListener('click', event => {
   if (!button) return;
   const action = button.dataset.official;
   if (action === 'start') {
+    if (!cloudReady) {
+      document.querySelector('#sync-status').scrollIntoView();
+      return;
+    }
     const count = Number(app.querySelector('#official-count').value);
     officialSession = {
       questions: shuffle(officialBank).slice(0, count),
